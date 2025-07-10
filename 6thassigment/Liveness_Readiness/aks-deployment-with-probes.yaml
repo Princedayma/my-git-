@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-aks-app
+  labels:
+    app: my-aks-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: my-aks-app
+  template:
+    metadata:
+      labels:
+        app: my-aks-app
+    spec:
+      containers:
+      - name: my-container
+        image: nginx:latest   # Replace with your custom image if needed
+        ports:
+        - containerPort: 8080
+
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 2
+          failureThreshold: 3
+
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 2
+          failureThreshold: 3
