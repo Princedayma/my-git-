@@ -1,0 +1,18 @@
+trigger:
+- main
+
+variables:
+  buildConfiguration: Release
+  outputDir: '$(Build.ArtifactStagingDirectory)/output'
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- script: echo "Building in $(buildConfiguration) mode"
+  displayName: 'Print config'
+
+- script: |
+    mkdir -p $(outputDir)
+    echo "Build output goes to $(outputDir)"
+  displayName: 'Setup Output Directory'
